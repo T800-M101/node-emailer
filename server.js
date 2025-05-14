@@ -4,9 +4,22 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
+const allowedOrigins = [
+    'http://localhost:3000',              // Express server
+    'http://127.0.0.1:5500',              // Live server or browser file preview
+    'https://tubular-chaja-9f4014.netlify.app' // Deployed front-end
+];
+  
 app.use(cors({
-    origin: 'https://tubular-chaja-9f4014.netlify.app' // <-- YOUR real Netlify site
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
 }));
+  
 app.use(express.json());
 
 // Email endpoint
@@ -25,7 +38,8 @@ app.post('/send-email', async (req, res) => {
   try {
     await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, 
+      to: process.env.EMAIL_USER,
+      replyTo: email, 
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     });
