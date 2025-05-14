@@ -4,7 +4,9 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'https://your-netlify-site.netlify.app' // Replace with your actual URL
+}));
 app.use(express.json());
 
 // Email endpoint
