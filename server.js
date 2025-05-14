@@ -5,27 +5,27 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 app.use(cors({
-    origin: 'https://your-netlify-site.netlify.app' // Replace with your actual URL
+    origin: 'https://tubular-chaja-9f4014.netlify.app' // <-- YOUR real Netlify site
 }));
 app.use(express.json());
 
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { name, email, message } = req.body;
-
+  
   // Configure transporter (using Gmail SMTP)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER, // Your Gmail
-      pass: process.env.EMAIL_PASS, // App password (see Step 3)
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS, 
     },
   });
 
   try {
     await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // Send to yourself
+      to: process.env.EMAIL_USER, 
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     });
