@@ -7,7 +7,7 @@ const app = express();
 const allowedOrigins = [
     'http://localhost:3000',              // Express server
     'http://127.0.0.1:5500',              // Live server or browser file preview
-    'https://stately-tulumba-22339f.netlify.app' // Deployed front-end
+    'https://guillermo-awesome-portfolio.netlify.app/' // Deployed front-end
 ];
   
 app.use(cors({
